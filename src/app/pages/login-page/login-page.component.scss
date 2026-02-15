@@ -1,0 +1,135 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 705px;
+  height: 100%;
+}
+
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.auth-form {
+  width: 392px;
+}
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 55px;
+  color: var(--opacity-black);
+  text-align: center;
+  font-size: 29px;
+  line-height: 135%;
+  font-weight: 800;
+  letter-spacing: -0.9px;
+}
+
+.auth-input {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  border: none;
+  border-bottom: 1px solid var(--grey);
+  height: 49px;
+  width: 100%;
+  background: none;
+  color: var(--grey);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  color: var(--grey);
+  height: 46px;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--grey);
+  }
+}
+
+.divider-text {
+  line-height: 1;
+  font-size: 14px;
+  color: var(--grey);
+  font-weight: 700;
+}
+
+.hint {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 135%;
+  color: var(--black);
+  text-align: center;
+}
+
+.hint-link {
+  color: var(--main-blue);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.promo {
+  border-radius: 16px;
+  background: url("/assets/images/loyalty.png");
+  background-color: var(--background-grey);
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.loyalty-title {
+  font-size: 30px;
+  line-height: 110%;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.loyalty-subtitle {
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.programs {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.programs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 135%;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.programs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}

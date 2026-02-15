@@ -1,0 +1,179 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab label="Таблица клиентов"
+    ><div class="table-wrapper">
+      <h1 class="main-title">Таблица клиентов</h1>
+      <h2 class="subtitle">
+        В этом разделе у вас есть возможность отправлять рассылки, а также
+        редактировать информацию о ваших клиентах.
+      </h2>
+
+      <div class="search-wrapper">
+        <form class="search-form" [formGroup]="form">
+          <input
+            formControlName="search"
+            placeholder="Поиск"
+            class="search-input"
+          />
+        </form>
+        <button class="push-button" (click)="openModal()">
+          Отправить Push
+          <img
+            class="push-icon"
+            src="assets/images/push.svg"
+            alt="Иконка отправки пуш-сообщений"
+          />
+        </button>
+      </div>
+
+      <div class="table-container mat-elevation-z2">
+        @if (isLoading) {
+        <div class="table-loading-overlay">
+          <ui-loading-spinner
+            [visible]="true"
+            [diameter]="150"
+          ></ui-loading-spinner>
+        </div>
+        } @let clients = (clients$ | async) ?? [];
+        <table mat-table class="clients-table" [dataSource]="clients">
+          <!-- <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="col-select">
+              <mat-checkbox></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let client" class="col-select">
+              <mat-checkbox></mat-checkbox>
+            </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="col-select">
+              <mat-checkbox
+                [checked]="isAllUserIdsOnPageSelected(clients)"
+                (change)="toggleAllOnPage(clients, $event.checked)"
+              ></mat-checkbox>
+            </th>
+
+            <td mat-cell *matCellDef="let client" class="col-select">
+              <mat-checkbox
+                [checked]="isSelected(client.user_id)"
+                (change)="toggleOne(client.user_id, $event.checked)"
+              ></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let client">{{ client.user_id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="device">
+            <th mat-header-cell *matHeaderCellDef>Устройство</th>
+            <td mat-cell *matCellDef="let client">
+              <div class="device-icons">
+                @if (client.o_s === 'IOS') {
+                <img src="assets/images/apple-icon.svg" />
+                } @else if (client.telegram) {
+                <img src="assets/images/telegram-icon.svg" />
+                } @else { — }
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cardLayout">
+            <th mat-header-cell *matHeaderCellDef>Макет карты</th>
+            <td mat-cell *matCellDef="let client">{{ client.template }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cardNumber">
+            <th mat-header-cell *matHeaderCellDef>Номер карты</th>
+            <td mat-cell *matCellDef="let client">{{ client.barcode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef>Фамилия владельца</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.last_name || "—" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef>Имя владельца</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.first_name || "—" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef>Номер телефона</th>
+            <td mat-cell *matCellDef="let client">{{ client.phone || "—" }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="discount">
+            <th mat-header-cell *matHeaderCellDef>Скидка</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.discount ? client.discount + "%" : "—" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bonus">
+            <th mat-header-cell *matHeaderCellDef>Бонусы</th>
+            <td mat-cell *matCellDef="let client">{{ client.bonus ?? "—" }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="avgCheck">
+            <th mat-header-cell *matHeaderCellDef>Средний чек</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.avg_check ?? "—" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sumPurchases">
+            <th mat-header-cell *matHeaderCellDef>Сумма покупок</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.sum_purchases ?? "—" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cardLink">
+            <th mat-header-cell *matHeaderCellDef>Ссылка на карту</th>
+            <td mat-cell *matCellDef="let client" class="center-cell-content">
+              <a [href]="downloadUrl + client.link" target="_blank">
+                <img
+                  class="download-icon"
+                  src="assets/images/download.svg"
+                  alt="Иконка ссылки скачивания карты"
+                />
+              </a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Дата создания</th>
+            <td mat-cell *matCellDef="let client">
+              {{ client.created_at | date : "HH:mm dd.MM.yyyy" }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let client;
+              columns: displayedColumns;
+              trackBy: trackByClientId
+            "
+          ></tr>
+        </table>
+
+        <mat-paginator
+          [length]="total"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[10]"
+          (page)="changePage($event)"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

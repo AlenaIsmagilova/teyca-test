@@ -1,0 +1,163 @@
+@use "./fonts.scss";
+@use "@angular/material" as mat;
+
+:root {
+  --black: rgb(31, 31, 31);
+  --background-grey: rgba(153, 153, 153, 0.1);
+
+  --opacity-black: rgba(31, 31, 31, 0.3);
+  --grey: rgb(153, 153, 153);
+  --white: rgb(255, 255, 255);
+  --main-blue: rgb(29, 114, 255);
+  --border-line: rgb(229, 229, 229);
+  --light-green: rgb(211, 242, 0);
+  --light-background: rgb(242, 242, 242);
+  --input-border: rgb(204, 204, 204);
+
+  --warning: #fde047;
+  --error: #c62628;
+
+  --close-button: #111827;
+  --snackbar-text: #1f2937;
+
+  font-family: "Monrope", Arial, sans-serif;
+  box-sizing: border-box;
+
+  @include mat.dialog-overrides(
+    (
+      subhead-color: var(--black),
+      subhead-font: "Manrope",
+      subhead-line-height: 125%,
+      subhead-size: 18px,
+      subhead-weight: 700,
+      container-color: var(--white),
+    )
+  );
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 100dvh;
+  box-sizing: border-box;
+  font-family: "Manrope", "Arial", sans-serif;
+}
+
+h1 {
+  margin-top: 45px;
+  margin-bottom: 18px;
+  color: var(--black);
+  font-size: 29px;
+  line-height: 135%;
+  font-weight: 800;
+  letter-spacing: -0.9px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.button {
+  width: 100%;
+  border: none;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+  display: block;
+  height: 46px;
+  border-radius: 5px;
+}
+
+.cancel-button {
+  border: none;
+  background-color: var(--light-background);
+  color: var(--black);
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+  display: block;
+  border-radius: 5px;
+  font-family: "Manrope";
+  height: 46px;
+}
+
+.ui-snackbar {
+  &.ui-snackbar--error {
+    --mdc-snackbar-container-color: var(--error);
+    --mat-mdc-snack-bar-button-color: var(--close-button);
+    --mdc-snackbar-supporting-text-color: var(--snackbar-text);
+  }
+
+  &.ui-snackbar--warning {
+    --mdc-snackbar-container-color: var(--warning);
+    --mat-mdc-snack-bar-button-color: var(--close-button);
+    --mdc-snackbar-supporting-text-color: var(--snackbar-text);
+  }
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-actions {
+  gap: 10px;
+  padding: 0 35px 35px 35px;
+}
+
+.submit-button {
+  width: auto;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-title {
+  text-align: center;
+  padding: 35px 35px 0 35px;
+  margin-bottom: 20px;
+}
+
+.custom-dialog-container {
+  width: 655px;
+  height: 800px;
+  position: relative;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-content {
+  height: 100%;
+  padding: 0 35px !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-form-field {
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "Manrope";
+}
+
+.mat-mdc-dialog-container {
+  --mat-form-field-container-vertical-padding: 0px;
+}
+
+.mat-mdc-dialog-container .mdc-text-field--outlined {
+  padding: 0;
+}
+
+.mat-mdc-dialog-container .mat-mdc-form-field-infix {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 10px !important;
+}
+
+.mat-mdc-dialog-container {
+  .mat-mdc-dialog-surface {
+    border-radius: 10px;
+  }
+}

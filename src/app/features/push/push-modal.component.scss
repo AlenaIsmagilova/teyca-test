@@ -1,0 +1,149 @@
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  place-items: center;
+  line-height: 0;
+  z-index: 1000;
+}
+
+.close-btn img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-title {
+  font-family: "Manrope";
+  font-size: 16px;
+  line-height: 140%;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.msg-field {
+  min-height: 80px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  resize: none;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black);
+  outline: none;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+}
+
+.preview-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.preview-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 80px;
+  padding: 16px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.preview-app-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.preview-content {
+  min-width: 0;
+}
+
+.preview-sender {
+  margin-bottom: 2px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 150%;
+  color: var(--black);
+}
+
+.preview-message {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+  color: var(--black);
+  overflow-wrap: anywhere;
+}
+
+.date-field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  height: 40px;
+  padding: 0 0 0 14px;
+  box-sizing: border-box;
+
+  .mat-mdc-input-element {
+    border: none;
+    outline: none;
+    font-family: "Manrope", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--black);
+    padding: 0;
+    height: 38px;
+    width: 100%;
+  }
+}
+
+.shevron-icon {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+.date-field .mat-mdc-form-field-infix {
+  height: 40px;
+}
+
+.date-field input.mat-mdc-input-element::placeholder {
+  color: var(--black);
+  opacity: 1;
+}
+
+.msg-field-wrap {
+  position: relative;
+}
+.msg-field {
+  width: 100%;
+  padding-right: 44px;
+}
+.msg-add-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 5px;
+}

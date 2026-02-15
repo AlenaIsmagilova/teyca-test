@@ -1,0 +1,152 @@
+.tabs-wrapper {
+  height: 60px;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  box-sizing: border-box;
+  height: calc(100% - 160px);
+}
+
+.main-title {
+  font-family: "Manrope";
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 125%;
+  margin: 0;
+}
+
+.subtitle {
+  font-family: "Manrope";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+  margin: 0;
+  color: var(--grey);
+  max-width: 536px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.clients-table {
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
+  font-family: "Manrope";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: auto;
+  margin-top: 20px;
+  .mat-mdc-cell {
+    border-bottom-color: var(--border-line);
+  }
+  .mat-mdc-header-cell {
+    border-bottom-color: var(--border-line);
+  }
+}
+
+.clients-table .mat-mdc-header-cell {
+  color: var(--grey);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 110%;
+  font-family: "Manrope";
+}
+
+.table-container {
+  position: relative;
+}
+
+.table-container .mat-mdc-paginator {
+  color: var(--grey);
+  font-family: "Manrope";
+}
+
+.download-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.center-cell-content {
+  text-align: center;
+}
+
+.search-wrapper {
+  display: flex;
+  height: 46px;
+  width: 100%;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.search-input {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  border: none;
+  border-bottom: 1px solid var(--grey);
+  height: 46px;
+  width: 100%;
+  background: none;
+  color: var(--grey);
+}
+
+.search-form {
+  width: 100%;
+}
+
+.push-button {
+  border: none;
+  background-color: var(--light-background);
+  color: var(--black);
+  padding: 18px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  cursor: pointer;
+  display: block;
+  height: 46px;
+  border-radius: 5px;
+  min-width: 172px;
+  font-family: "Manrope";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.push-icon {
+  width: 24px;
+  height: 25px;
+}
+
+.tabs-wrapper {
+  height: 60px;
+}
+
+.table-loading-overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+}
+
+.device-icons {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.mat-mdc-paginator {
+  background-color: transparent;
+}
+
+.mat-mdc-table {
+  background-color: transparent;
+}

@@ -1,0 +1,87 @@
+<button type="button" class="close-btn" (click)="close()" aria-label="Закрыть">
+  <img
+    src="assets/images/close-icon.svg"
+    alt="Иконка закрытия модального окна"
+  />
+</button>
+
+<h2 mat-dialog-title>Новая Push-рассылка</h2>
+
+<mat-dialog-content>
+  <div class="field-wrapper">
+    <span class="msg-title">Текст сообщения</span>
+    <div class="msg-field-wrap">
+      <textarea
+        matInput
+        class="msg-field"
+        [formControl]="form.controls.pushMessage"
+        rows="3"
+      ></textarea>
+      <button type="button" class="msg-add-btn">
+        <img
+          src="assets/images/add-icon.svg"
+          alt="Иконка добавления текста сообщения"
+        />
+      </button>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <span class="msg-title">Превью</span>
+    <div class="preview-card">
+      <img
+        class="preview-app-icon"
+        src="assets/images/wallet-icon.svg"
+        alt="Иконка кошелька"
+      />
+
+      <div class="preview-content">
+        <div class="preview-sender">Имя отправителя</div>
+
+        <div class="preview-message">
+          🛒 Осталось чуть-чуть до 1500 ₽ — и бонусы ваши. Успейте до конца
+          акции!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <span class="msg-title mt20">Дата отправки рассылки</span>
+
+    <div class="date-field">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="form.controls.scheduledDate"
+        placeholder="Сейчас"
+        readonly
+        [min]="today"
+      />
+      <div>
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>
+            <img
+              matDatepickerToggleIcon
+              src="assets/images/shevron-down.svg"
+              alt="Иконка открытия календаря"
+              class="shevron-icon"
+            /> </mat-icon
+        ></mat-datepicker-toggle>
+        <mat-datepicker xPosition="end" #picker></mat-datepicker>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="cancel-button" (click)="close()">Отмена</button>
+  <button
+    class="button submit-button"
+    color="primary"
+    (click)="submit()"
+    [disabled]="isSubmitting"
+  >
+    Отправить
+  </button>
+</mat-dialog-actions>

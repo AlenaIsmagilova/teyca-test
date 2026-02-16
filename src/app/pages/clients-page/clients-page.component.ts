@@ -15,6 +15,7 @@ import { ApiClientService } from '../../api/api-client.service';
 import {
   catchError,
   debounceTime,
+  distinctUntilChanged,
   finalize,
   map,
   startWith,
@@ -22,7 +23,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getRussianPaginator } from '../../utils/paginator';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -66,7 +67,11 @@ export class ClientsPageComponent implements OnInit {
 
   public readonly total = signal(0);
   public pageSize = 10;
-  public readonly pageIndex$ = new BehaviorSubject(0);
+  public pageIndex = 0;
+  private readonly pageChanges$ = new Subject<{
+    pageIndex: number;
+    pageSize: number;
+  }>();
 
   public readonly displayedColumns = [
     'select',
@@ -90,21 +95,31 @@ export class ClientsPageComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.clients$ = combineLatest([
-      this.form.controls.search.valueChanges.pipe(
-        startWith(null),
-        debounceTime(500)
-      ),
-      this.pageIndex$,
-    ]).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      switchMap(([inputVal, pageIndex]) => {
-        return this.getClients(
-          (pageIndex || 0) * this.pageSize,
-          this.pageSize,
-          inputVal ? `phone=${inputVal}` : undefined
-        );
+    const searchControl = this.form.controls.search;
+
+    const search$ = searchControl.valueChanges.pipe(
+      startWith(null),
+      debounceTime(500),
+      distinctUntilChanged(),
+      tap(() => {
+        this.pageIndex = 0;
       })
+    );
+
+    this.clients$ = search$.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap((inputVal) =>
+        this.pageChanges$.pipe(
+          startWith({ pageIndex: 0, pageSize: this.pageSize }),
+          switchMap(({ pageIndex, pageSize }) =>
+            this.getClients(
+              pageIndex * pageSize,
+              pageSize,
+              inputVal ? `phone=${inputVal}` : undefined
+            )
+          )
+        )
+      )
     );
   }
 
@@ -141,7 +156,11 @@ export class ClientsPageComponent implements OnInit {
 
   public changePage(event: PageEvent): void {
     this.pageSize = event.pageSize;
-    this.pageIndex$.next(event.pageIndex);
+    this.pageIndex = event.pageIndex;
+    this.pageChanges$.next({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+    });
   }
 
   private getClients(offset: number, limit: number, search?: string) {

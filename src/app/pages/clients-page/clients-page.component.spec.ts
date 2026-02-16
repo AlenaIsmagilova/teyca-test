@@ -48,18 +48,17 @@ describe('ClientsPageComponent', () => {
   });
 
   afterEach(() => {
-    // очистка вызовов между тестами
     apiClientServiceMock.getClients.calls.reset();
     snackbarMock.error.calls.reset();
     snackbarMock.warning.calls.reset();
     dialogMock.open.calls.reset();
   });
 
-  it('should create', () => {
+  it('должен быть создан', () => {
     expect(component).toBeTruthy();
   });
 
-  it('toggleOne should add/remove selected user id', () => {
+  it('метод toggleOne должен добавлять или удалять selected user id', () => {
     component.toggleOne(101, true);
     expect(component.selectedUserIds.has(101)).toBeTrue();
 
@@ -67,7 +66,7 @@ describe('ClientsPageComponent', () => {
     expect(component.selectedUserIds.has(101)).toBeFalse();
   });
 
-  it('toggleAllOnPage should select and unselect all clients on page', () => {
+  it('метод toggleAllOnPage должен выбирать/отменять выбор всех клиентов на странице', () => {
     const clients = [
       { user_id: 1 },
       { user_id: 2 },
@@ -83,7 +82,7 @@ describe('ClientsPageComponent', () => {
     expect(component.selectedUserIds.size).toBe(0);
   });
 
-  it('openModal should show warning when nothing selected', () => {
+  it('метод openModal должен показать warning, когда ни один юзер не выбран', () => {
     component.selectedUserIds.clear();
 
     component.openModal();
@@ -94,7 +93,7 @@ describe('ClientsPageComponent', () => {
     expect(dialogMock.open).not.toHaveBeenCalled();
   });
 
-  it('openModal should open dialog with selected userIds csv', () => {
+  it('метод openModal должен открыть модальное окно с выбранными selected userIds', () => {
     component.selectedUserIds = new Set<number>([17145, 15897, 15970]);
 
     component.openModal();

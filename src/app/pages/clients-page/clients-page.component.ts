@@ -94,6 +94,7 @@ export class ClientsPageComponent implements OnInit {
     this.clients$ = combineLatest([
       this.form.controls.search.valueChanges.pipe(
         startWith(null),
+        debounceTime(500),
         tap(() => {
           this.pageIndex = 0;
           this.pageIndex$.next(0);
@@ -101,7 +102,6 @@ export class ClientsPageComponent implements OnInit {
       ),
       this.pageIndex$,
     ]).pipe(
-      debounceTime(500),
       takeUntilDestroyed(this.destroyRef),
       switchMap(([inputVal, pageIndex]) => {
         return this.getClients(

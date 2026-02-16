@@ -31,11 +31,11 @@ describe('LayoutComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('должен быть создан', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render header with title', () => {
+  it('должен рендерить header с title', () => {
     const header = fixture.debugElement.query(By.css('.header'));
     const title = fixture.debugElement.query(By.css('.icon-text'));
 
@@ -44,7 +44,7 @@ describe('LayoutComponent', () => {
     expect(title.nativeElement.textContent.trim()).toBe('База знаний');
   });
 
-  it('should render clients page child component', () => {
+  it('должен рендерить clients-page компонент', () => {
     const child = fixture.debugElement.query(By.css('app-clients-page'));
     expect(child).toBeTruthy();
   });

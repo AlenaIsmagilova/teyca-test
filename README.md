@@ -2,13 +2,11 @@
 
 ##### Реализована часть интерфейса для работы с клиентской базой и PUSH-рассылками: авторизация, просмотр клиентов и отправка PUSH - уведомлений.
 
-<!-- ### [Демо](https://alenaismagilova.github.io/test-task-only/) -->
-
-### Стек
+    ### Стек
 
 1. Angular 19, TypeScript 5
 2. Rxjs 7
-3. scss
+3. Angular Material, scss
 
 ### Быстрый старт
 
@@ -23,7 +21,7 @@ cd teyca-test
 ```
 
 ```markdown
-ng build
+npm install
 ```
 
 2. Запуск проекта

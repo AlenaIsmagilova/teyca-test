@@ -36,11 +36,11 @@ describe('LoginPageComponent', () => {
     routerMock.navigate.calls.reset();
   });
 
-  it('should create', () => {
+  it('должен быть создан', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should NOT call login when form is empty/invalid', () => {
+  it('не должен вызывать login, когда форма пустая или невалидная', () => {
     component.form.setValue({ login: '', password: '' });
 
     component.onSubmit();
@@ -49,7 +49,7 @@ describe('LoginPageComponent', () => {
     expect(routerMock.navigate).not.toHaveBeenCalled();
   });
 
-  it('should call login and navigate to /clients when form is valid', () => {
+  it('должен вызывать login и перенаправлять на /clients, когда форма валидна', () => {
     component.form.setValue({ login: 'test', password: '123456' });
 
     component.onSubmit();

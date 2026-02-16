@@ -37,13 +37,17 @@
   font-family: "Manrope";
   font-weight: 400;
   font-size: 14px;
-  line-height: auto;
   margin-top: 20px;
   .mat-mdc-cell {
     border-bottom-color: var(--border-line);
   }
   .mat-mdc-header-cell {
     border-bottom-color: var(--border-line);
+  }
+  .mat-mdc-row {
+    font-family: "Manrope";
+    font-weight: 400;
+    font-size: 14px;
   }
 }
 

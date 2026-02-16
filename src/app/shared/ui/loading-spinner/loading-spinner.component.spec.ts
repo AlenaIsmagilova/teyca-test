@@ -4,7 +4,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { LoadingSpinnerComponent } from './loading-spinner.component';
 
-describe('LoadingSpinnerComponent (minimal)', () => {
+describe('LoadingSpinnerComponent', () => {
   let fixture: ComponentFixture<LoadingSpinnerComponent>;
   let component: LoadingSpinnerComponent;
 
@@ -18,11 +18,11 @@ describe('LoadingSpinnerComponent (minimal)', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('должен быть создан', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not render spinner when visible is false', () => {
+  it('не должен рендерить spinner, когда visible is false', () => {
     fixture.componentRef.setInput('visible', false);
     fixture.detectChanges();
 

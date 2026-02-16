@@ -1,13 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
-import { IAuthResponse } from '../models/profile.models';
 import { CookieService } from 'ngx-cookie-service';
-
-export interface ILoginPayload {
-  login: string;
-  password: string;
-}
+import { IAuthResponse, ILoginPayload } from '../types/types';
 
 @Injectable({
   providedIn: 'root',

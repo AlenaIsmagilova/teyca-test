@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IClientsResponse } from '../models/client.models';
 import { CookieService } from 'ngx-cookie-service';
-import { catchError, throwError } from 'rxjs';
+import { IClientsResponse } from '../types/types';
 
 @Injectable({
   providedIn: 'root',

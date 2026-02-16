@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ISendPushRequest, ISendPushResponse } from '../../models/push.models';
 import { CookieService } from 'ngx-cookie-service';
+import { ISendPushRequest, ISendPushResponse } from '../../types/types';
 
 @Injectable({
   providedIn: 'root',

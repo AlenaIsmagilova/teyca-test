@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-
-type SnackbarType = 'error' | 'warning';
+import { SnackbarType } from '../../../types/types';
 
 @Injectable({ providedIn: 'root' })
 export class UiSnackbarService {

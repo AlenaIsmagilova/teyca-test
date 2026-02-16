@@ -5,6 +5,7 @@ import {
   DestroyRef,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -21,7 +22,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { IClient, IClientsResponse } from '../../models/client.models';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getRussianPaginator } from '../../utils/paginator';
@@ -32,10 +32,7 @@ import { UiSnackbarService } from '../../shared/ui/snackbar/snackbar.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { PushDialogComponent } from '../../features/push/push-modal.component';
-
-interface ISearchForm {
-  search: FormControl<string | null>;
-}
+import { IClient, IClientsResponse, ISearchForm } from '../../types/types';
 
 @Component({
   selector: 'app-clients-page',
@@ -64,14 +61,15 @@ export class ClientsPageComponent implements OnInit {
   public clients$!: Observable<IClient[]>;
   public selectedUserIds = new Set<number>();
   public readonly downloadUrl = 'https://cards.teyca.ru/download/';
-  public isLoading = false;
-  public isError = false;
+  public readonly isLoading = signal(false);
+  public readonly isError = signal(false);
 
+  public readonly total = signal(0);
   public pageIndex = 0;
   public pageSize = 10;
-  public total = 0;
+  public readonly pageIndex$ = new BehaviorSubject(0);
 
-  public readonly displayedColumns: string[] = [
+  public readonly displayedColumns = [
     'select',
     'id',
     'device',
@@ -86,24 +84,28 @@ export class ClientsPageComponent implements OnInit {
     'sumPurchases',
     'cardLink',
     'createdAt',
-  ];
+  ] as const;
 
   public readonly form = new FormGroup<ISearchForm>({
     search: new FormControl(null),
   });
-  pageIndex$ = new BehaviorSubject(0);
 
   ngOnInit() {
     this.clients$ = combineLatest([
-      this.form.controls.search.valueChanges,
+      this.form.controls.search.valueChanges.pipe(
+        startWith(null),
+        tap(() => {
+          this.pageIndex = 0;
+          this.pageIndex$.next(0);
+        })
+      ),
       this.pageIndex$,
     ]).pipe(
-      startWith([null, 0]),
       debounceTime(500),
       takeUntilDestroyed(this.destroyRef),
-      switchMap(([inputVal]) => {
+      switchMap(([inputVal, pageIndex]) => {
         return this.getClients(
-          this.pageIndex * this.pageSize,
+          (pageIndex || 0) * this.pageSize,
           this.pageSize,
           inputVal ? `phone=${inputVal}` : undefined
         );
@@ -143,30 +145,29 @@ export class ClientsPageComponent implements OnInit {
   }
 
   public changePage(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-
+    this.pageIndex = event.pageIndex;
     this.pageIndex$.next(event.pageIndex);
   }
 
   private getClients(offset: number, limit: number, search?: string) {
-    this.isLoading = true;
-    this.isError = false;
+    this.isLoading.set(true);
+    this.isError.set(false);
 
     return this.clientsApi.getClients({ offset, limit, search }).pipe(
       tap((res: IClientsResponse) => {
-        this.total = res.meta.size;
+        this.total.set(res.meta.size);
       }),
       map((res: IClientsResponse) => res.passes ?? []),
       catchError((err) => {
-        this.isError = true;
-        this.total = 0;
+        this.isError.set(true);
+        this.total.set(0);
         this.showClientsError(err);
 
         return of([]);
       }),
       finalize(() => {
-        this.isLoading = false;
+        this.isLoading.set(false);
       })
     );
   }
@@ -174,7 +175,7 @@ export class ClientsPageComponent implements OnInit {
   private showClientsError(error: unknown): void {
     const msg = this.getErrorMessage(error);
 
-    this.snackbarService.error(msg, 'Закрыть');
+    this.snackbarService.error(msg);
   }
 
   private getErrorMessage(error: unknown): string {
@@ -193,7 +194,7 @@ export class ClientsPageComponent implements OnInit {
     return 'Ошибка загрузки клиентов.';
   }
 
-  public trackByClientId(client: IClient): number {
+  public trackByClientId(index: number, client: IClient): number {
     return client.user_id;
   }
 

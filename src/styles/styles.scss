@@ -96,7 +96,7 @@ h1 {
   &.ui-snackbar--error {
     --mdc-snackbar-container-color: var(--error);
     --mat-mdc-snack-bar-button-color: var(--close-button);
-    --mdc-snackbar-supporting-text-color: var(--snackbar-text);
+    --mdc-snackbar-supporting-text-color: var(--white);
   }
 
   &.ui-snackbar--warning {

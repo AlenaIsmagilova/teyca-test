@@ -7,11 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
-export interface ILoginForm {
-  login: FormControl<string | null>;
-  password: FormControl<string | null>;
-}
+import { ILoginForm } from '../../types/types';
 
 @Component({
   selector: 'app-login-page',

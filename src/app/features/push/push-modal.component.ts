@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -17,17 +22,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { finalize } from 'rxjs/operators';
 import { PushModalService } from './push.service';
-import { UiSnackbarService } from '../../shared/ui/snackbar/snackbar.service';
 import {
   MatNativeDateModule,
   provideNativeDateAdapter,
 } from '@angular/material/core';
-
-type SendMode = 'now' | 'scheduled';
-
-interface PushDialogData {
-  userIds: string;
-}
+import { UiSnackbarService } from '../../shared/ui/snackbar/snackbar.service';
+import { IPushDialogData } from '../../types/types';
 
 @Component({
   selector: 'app-push-dialog',
@@ -51,11 +51,12 @@ export class PushDialogComponent {
   private readonly dialogRef = inject(
     MatDialogRef<PushDialogComponent, boolean>
   );
-  private readonly data = inject<PushDialogData>(MAT_DIALOG_DATA);
+  private readonly data = inject<IPushDialogData>(MAT_DIALOG_DATA);
   private readonly pushService = inject(PushModalService);
+  private readonly snackbarService = inject(UiSnackbarService);
   public readonly today = new Date();
 
-  public isSubmitting = false;
+  public isSubmitting = signal(false);
 
   public readonly form = new FormGroup({
     pushMessage: new FormControl<string>(
@@ -89,13 +90,16 @@ export class PushDialogComponent {
       payload.date_start = raw.scheduledDate;
     }
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     this.pushService
       .sendPush(payload)
-      .pipe(finalize(() => (this.isSubmitting = false)))
+      .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
         next: () => {
           this.dialogRef.close(true);
+        },
+        error: () => {
+          this.snackbarService.error('Не удалось отправить PUSH');
         },
       });
   }

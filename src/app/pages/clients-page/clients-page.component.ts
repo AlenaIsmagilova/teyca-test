@@ -65,7 +65,6 @@ export class ClientsPageComponent implements OnInit {
   public readonly isError = signal(false);
 
   public readonly total = signal(0);
-  public pageIndex = 0;
   public pageSize = 10;
   public readonly pageIndex$ = new BehaviorSubject(0);
 
@@ -94,11 +93,7 @@ export class ClientsPageComponent implements OnInit {
     this.clients$ = combineLatest([
       this.form.controls.search.valueChanges.pipe(
         startWith(null),
-        debounceTime(500),
-        tap(() => {
-          this.pageIndex = 0;
-          this.pageIndex$.next(0);
-        })
+        debounceTime(500)
       ),
       this.pageIndex$,
     ]).pipe(
@@ -146,7 +141,6 @@ export class ClientsPageComponent implements OnInit {
 
   public changePage(event: PageEvent): void {
     this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
     this.pageIndex$.next(event.pageIndex);
   }
 

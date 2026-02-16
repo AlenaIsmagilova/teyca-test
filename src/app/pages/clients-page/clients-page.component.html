@@ -155,7 +155,7 @@
 
         <mat-paginator
           [length]="total()"
-          [pageIndex]="pageIndex"
+          [pageIndex]="pageIndex$ | async"
           [pageSize]="pageSize"
           [pageSizeOptions]="[10]"
           (page)="changePage($event)"
